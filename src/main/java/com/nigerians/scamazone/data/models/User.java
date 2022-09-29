@@ -1,26 +1,42 @@
 package com.nigerians.scamazone.data.models;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Data
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Entity
+@MappedSuperclass
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    @Setter(value = AccessLevel.PRIVATE)
     private Long id;
+    @NotBlank(message = "Firstname is required")
     private String firstName;
+    @NotBlank(message = "Lastname is required")
     private String lastName;
     @Column(unique = true)
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be valid")
     private String email;
+    @NotBlank(message = "Password is required")
     private String password;
     private String address;
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+
+    public User (String firstName, String lastName, String email, String password, String address){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+    }
+
+    public User (String firstName, String lastName, String email, String password){
+        this(firstName, lastName, email, password, null);
+    }
+
+    public User () {
+        this(null, null, null, null, null);
+    }
 }

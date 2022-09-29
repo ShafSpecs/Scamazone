@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Embeddable
+@Table(name = "PRODUCT")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +15,8 @@ public class Product {
     private String description;
     private String image;
     private String price;
-    private int stock;
-    private String storeId;
+    private int quantity;
+    @ManyToOne
+    @JoinColumn(name="store_id", nullable=false)
+    private Store store;
 }

@@ -2,16 +2,20 @@ package com.nigerians.scamazone.data.models;
 
 import lombok.Data;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
-@Data
 @Entity
+@Data
 public class Buyer extends User {
-    private Long buyerId;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "store_id", referencedColumnName = "id")
-    private Store store;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
+    public Buyer(String firstName, String lastName, String email, String password, String address) {
+        super(firstName, lastName, email, password, address);
+    }
+
+    public Buyer() {
+        super(null, null, null, null, null);
+    }
 }
