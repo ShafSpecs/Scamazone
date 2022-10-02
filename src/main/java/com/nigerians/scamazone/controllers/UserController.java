@@ -42,11 +42,4 @@ public class UserController {
     //todo: `/update/{ROLE}` & `/delete/{ROLE}`
 
     //todo: `/reset-password`
-
-    @PostMapping("/create-store")
-    public CreateStoreResponse createStore(@Valid @RequestBody CreateStoreRequest req) {
-        return userService.createStore(req);
-    }
-
-    //todo: `/get-store`, `/update-store` & `/delete-store`
 }

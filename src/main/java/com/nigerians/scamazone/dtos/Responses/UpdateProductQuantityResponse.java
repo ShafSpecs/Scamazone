@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CreateStoreResponse {
+public class UpdateProductQuantityResponse {
     public String message;
     public String token;
     public String userId;
+    public String productId;
 }

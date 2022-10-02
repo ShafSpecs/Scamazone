@@ -3,6 +3,7 @@ package com.nigerians.scamazone.services;
 import com.google.common.hash.Hashing;
 import com.nigerians.scamazone.data.models.*;
 import com.nigerians.scamazone.data.respositories.BuyerRepository;
+import com.nigerians.scamazone.data.respositories.CartRepository;
 import com.nigerians.scamazone.data.respositories.SellerRepository;
 import com.nigerians.scamazone.dtos.Requests.*;
 import com.nigerians.scamazone.dtos.Responses.*;
@@ -21,7 +22,7 @@ public class UserService implements iUserService {
     @Autowired
     private SellerRepository sellerRepo;
     @Autowired
-    private CartService cartService;
+    private CartRepository cartRepo;
 
     @Override
     public RegisterBuyerResponse registerBuyer(RegisterBuyerRequest req) {
@@ -43,7 +44,11 @@ public class UserService implements iUserService {
         Buyer buyer = mapper.map(req, Buyer.class);
         buyer.setId(uuid);
 
-        Cart userCart = cartService.createCart();
+        Cart userCart = new Cart();
+        userCart.setId(uuid);
+
+        cartRepo.save(userCart);
+
         buyer.setCart(userCart);
 
         buyerRepo.save(buyer);
@@ -111,16 +116,24 @@ public class UserService implements iUserService {
     }
 
     @Override
-    public CreateStoreResponse createStore(CreateStoreRequest req) {
-        Seller validUser = (Seller) sellerRepo.findSellerById(Long.parseLong(req.getUserId()));
+    public User getUser(Long userId, String role) {
+        User user;
 
-        if (validUser == null) {
-            return new CreateStoreResponse("Invalid User", "FAILED", null);
+        if (role == "BUYER") {
+            user = buyerRepo.findBuyerById(userId);
+        } else {
+            user = sellerRepo.findSellerById(userId);
         }
 
-        validUser.setStore(new Store(req.getName(), req.getDescription(), req.getImage()));
+        return user;
+    }
 
-        sellerRepo.save(validUser);
-        return new CreateStoreResponse("Store created successfully", "SUCCESS", String.valueOf(validUser.getId()));
+    @Override
+    public void saveUser(User user) {
+        if (user instanceof Buyer) {
+            buyerRepo.save((Buyer) user);
+        } else {
+            sellerRepo.save((Seller) user);
+        }
     }
 }

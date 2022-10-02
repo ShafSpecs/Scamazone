@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CreateStoreResponse {
+public class RemoveFromCartResponse {
     public String message;
     public String token;
     public String userId;

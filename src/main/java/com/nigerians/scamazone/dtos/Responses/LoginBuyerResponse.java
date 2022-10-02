@@ -1,7 +1,12 @@
 package com.nigerians.scamazone.dtos.Responses;
 
-public class LoginBuyerResponse extends UserBaseResponse {
-    public LoginBuyerResponse(String message, String token, String userId) {
-        super(message, token, userId);
-    }
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class LoginBuyerResponse {
+    public String message;
+    public String token;
+    public String userId;
 }

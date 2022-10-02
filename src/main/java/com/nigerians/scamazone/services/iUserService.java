@@ -1,5 +1,6 @@
 package com.nigerians.scamazone.services;
 
+import com.nigerians.scamazone.data.models.User;
 import com.nigerians.scamazone.dtos.Requests.*;
 import com.nigerians.scamazone.dtos.Responses.*;
 
@@ -9,5 +10,6 @@ public interface iUserService {
     GetBuyerResponse getBuyer(String req);
     RegisterSellerResponse registerSeller(RegisterUserRequest req);
     GetSellerResponse getSeller(String req);
-    CreateStoreResponse createStore(CreateStoreRequest req);
+    User getUser(Long userId, String role);
+    void saveUser(User user);
 }

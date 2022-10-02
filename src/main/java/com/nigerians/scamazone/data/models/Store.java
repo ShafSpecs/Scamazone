@@ -19,7 +19,7 @@ public class Store {
     private String description;
     private String image;
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private Set<Product> product = new HashSet<>();
 
     public Store(String name, String desc, String img) {

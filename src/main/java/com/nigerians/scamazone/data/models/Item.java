@@ -16,7 +16,7 @@ public class Item {
     private Long itemId;
     private String name;
     private String description;
-    private int price;
+    private double price;
     private int quantity;
     private String image;
 }

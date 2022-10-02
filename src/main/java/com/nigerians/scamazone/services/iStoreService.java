@@ -1,7 +1,8 @@
 package com.nigerians.scamazone.services;
 
 import com.nigerians.scamazone.dtos.Requests.CreateStoreRequest;
+import com.nigerians.scamazone.dtos.Responses.CreateStoreResponse;
 
 public interface iStoreService {
-    void createStore(CreateStoreRequest req);
+    CreateStoreResponse createStore(CreateStoreRequest req);
 }
