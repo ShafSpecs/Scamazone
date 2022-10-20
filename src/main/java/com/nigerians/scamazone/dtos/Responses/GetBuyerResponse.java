@@ -2,7 +2,7 @@ package com.nigerians.scamazone.dtos.Responses;
 
 import com.nigerians.scamazone.data.models.Cart;
 
-public class GetBuyerResponse {
+public class    GetBuyerResponse {
     public String message;
     public String token;
     public String userId;

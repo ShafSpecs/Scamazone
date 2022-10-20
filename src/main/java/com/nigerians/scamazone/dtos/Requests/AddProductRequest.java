@@ -9,9 +9,8 @@ public class AddProductRequest {
     private String name;
     private String description;
     private String image;
-    private double price;
-    private int quantity;
+    private Long price;
+    private Integer quantity;
     private String userId;
-    private String productId;
     private String category;
 }
