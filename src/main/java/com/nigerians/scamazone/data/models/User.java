@@ -1,9 +1,11 @@
 package com.nigerians.scamazone.data.models;
 
+import com.nigerians.scamazone.annotations.Password;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Data

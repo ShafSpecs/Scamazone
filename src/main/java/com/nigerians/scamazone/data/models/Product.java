@@ -6,9 +6,10 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "PRODUCT")
+@Table
 public class Product {
     @Id
+    @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
@@ -18,8 +19,6 @@ public class Product {
 //    @Enumerated(EnumType.STRING)
 //    private Category category;
     private String category;
+    private String brand;
     private int quantity;
-    @ManyToOne
-    @JoinColumn(name="store_id", nullable=false)
-    private Store store;
 }

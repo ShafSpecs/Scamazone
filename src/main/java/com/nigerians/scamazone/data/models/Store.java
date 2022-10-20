@@ -12,14 +12,15 @@ import java.util.Set;
 @NoArgsConstructor
 public class Store {
     @Id
-    @Column(name = "id")
+    @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
     private String image;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=Product.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
     private Set<Product> product = new HashSet<>();
 
     public Store(String name, String desc, String img) {
