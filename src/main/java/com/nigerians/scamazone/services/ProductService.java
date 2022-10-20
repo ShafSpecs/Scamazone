@@ -3,21 +3,23 @@ package com.nigerians.scamazone.services;
 import com.nigerians.scamazone.data.models.Product;
 import com.nigerians.scamazone.data.models.Seller;
 import com.nigerians.scamazone.data.respositories.ProductRepository;
+import com.nigerians.scamazone.data.respositories.StoreRepository;
 import com.nigerians.scamazone.dtos.Requests.AddProductRequest;
 import com.nigerians.scamazone.dtos.Requests.DeleteProductRequest;
 import com.nigerians.scamazone.dtos.Requests.UpdateProductQuantityRequest;
 import com.nigerians.scamazone.dtos.Requests.UpdateProductRequest;
-import com.nigerians.scamazone.dtos.Responses.AddProductResponse;
-import com.nigerians.scamazone.dtos.Responses.DeleteProductResponse;
-import com.nigerians.scamazone.dtos.Responses.UpdateProductQuantityResponse;
-import com.nigerians.scamazone.dtos.Responses.UpdateProductResponse;
+import com.nigerians.scamazone.dtos.Responses.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
+@Slf4j
 public class ProductService implements iProductService {
     @Autowired
     private ProductRepository productRepository;
@@ -35,11 +37,12 @@ public class ProductService implements iProductService {
         newProduct.setPrice(req.getPrice());
         newProduct.setQuantity(req.getQuantity());
         newProduct.setCategory(req.getCategory());
+        newProduct.setBrand(seller.getStore().getName());
+        newProduct.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
 
         seller.getStore().getProduct().add(newProduct);
 
         userService.saveUser(seller);
-        productRepository.save(newProduct);
 
         return new AddProductResponse("Product added successfully", "SUCCESS", req.getUserId(), newProduct.getId().toString());
     }
@@ -102,26 +105,40 @@ public class ProductService implements iProductService {
     }
 
     @Override
-    public Page<Product> getProducts(int page, int size) {
-        return productRepository.findAll(PageRequest.of(page, size));
+    public GetProductResponse getProducts(int page, int size) {
+        int totalNumber = productRepository.findAll().size();
+        Page<Product> products = productRepository.findAll(PageRequest.of(page, size));
+
+        return new GetProductResponse(totalNumber, products);
     }
 
     @Override
-    public Page<Product> getProductsByCategory(String category, int page, int size) {
-        return productRepository.findAllByCategory(category, PageRequest.of(page, size));
+    public GetProductResponse getProductsByCategory(String category, int page, int size) {
+        int totalNumber = productRepository.findAllByCategory(category).size();
+        Page<Product> products = productRepository.findAllByCategory(category, PageRequest.of(page, size));
+
+        return new GetProductResponse(totalNumber, products);
     }
 
     @Override
-    public Page<Product> searchProducts(String query, int page, int size) {
-        return productRepository.findAllByNameContaining(query, PageRequest.of(page, size));
+    public GetProductResponse searchProducts(String query, int page, int size) {
+        int totalNumber = productRepository.findAllByNameContaining(query).size();
+        Page<Product> products = productRepository.findAllByNameContaining(query, PageRequest.of(page, size));
+
+        return new GetProductResponse(totalNumber, products);
     }
 
     @Override
-    public Page<Product> getProductsByPriceBetween(double min, double max, int page, int size, String direction) {
+    public GetProductResponse getProductsByPriceBetween(double min, double max, int page, int size, String direction) {
+        int totalNumber = productRepository.findAllByPriceBetween(min, max).size();
+        Page<Product> products;
+
         if(direction.equals("ASC")) {
-            return productRepository.findAllByPriceBetween(min, max, PageRequest.of(page, size, Sort.by("price").ascending()));
+            products = productRepository.findAllByPriceBetween(min, max, PageRequest.of(page, size, Sort.by("price").ascending()));
+            return new GetProductResponse(totalNumber, products);
         } else {
-            return productRepository.findAllByPriceBetween(min, max, PageRequest.of(page, size, Sort.by("price").descending()));
+            products = productRepository.findAllByPriceBetween(min, max, PageRequest.of(page, size, Sort.by("price").descending()));
+            return new GetProductResponse(totalNumber, products);
         }
     }
 
