@@ -2,20 +2,21 @@ package com.nigerians.scamazone.controllers;
 
 import com.nigerians.scamazone.dtos.Requests.*;
 import com.nigerians.scamazone.dtos.Responses.*;
-import com.nigerians.scamazone.services.UserService;
+import com.nigerians.scamazone.services.iUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/v1/users")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private iUserService userService;
 
     @PostMapping("/register/buyer")
-    public RegisterBuyerResponse register(@Valid @RequestBody RegisterBuyerRequest req) {
+    public RegisterBuyerResponse register(@RequestBody RegisterBuyerRequest req) {
         return userService.registerBuyer(req);
     }
 
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/register/seller")
-    public RegisterSellerResponse registerSeller(@Valid @RequestBody RegisterUserRequest userId) {
+    public RegisterSellerResponse registerSeller(@Valid @RequestBody RegisterSellerRequest userId) {
         return userService.registerSeller(userId);
     }
 

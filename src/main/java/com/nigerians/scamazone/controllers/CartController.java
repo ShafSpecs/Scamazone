@@ -19,22 +19,22 @@ public class CartController {
     private CartService cartService;
 
     @PutMapping("/add")
-    public AddToCartResponse addToCart(AddToCartRequest req) {
+    public AddToCartResponse addToCart(@RequestBody AddToCartRequest req) {
         return cartService.addToCart(req);
     }
 
     @PatchMapping("/remove")
-    public RemoveFromCartResponse removeFromCart(RemoveFromCartRequest req) {
+    public RemoveFromCartResponse removeFromCart(@RequestBody RemoveFromCartRequest req) {
         return cartService.removeFromCart(req);
     }
 
     @DeleteMapping("/clear")
-    public ClearCartResponse clearCart(ClearCartRequest req) {
+    public ClearCartResponse clearCart(@RequestBody ClearCartRequest req) {
         return cartService.clearCart(req);
     }
 
     @PatchMapping("/update")
-    public UpdateCartItemQuantityResponse updateCartItemQuantity(UpdateCartItemQuantityRequest req) {
+    public UpdateCartItemQuantityResponse updateCartItemQuantity(@RequestBody UpdateCartItemQuantityRequest req) {
         return cartService.updateCartItemQuantity(req);
     }
 }
