@@ -7,6 +7,7 @@ import com.nigerians.scamazone.data.respositories.CartRepository;
 import com.nigerians.scamazone.data.respositories.SellerRepository;
 import com.nigerians.scamazone.dtos.Requests.*;
 import com.nigerians.scamazone.dtos.Responses.*;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Service
+@Slf4j
 public class UserService implements iUserService {
     @Autowired
     private BuyerRepository buyerRepo;
@@ -26,6 +28,7 @@ public class UserService implements iUserService {
 
     @Override
     public RegisterBuyerResponse registerBuyer(RegisterBuyerRequest req) {
+//        log.info("Registering buyer: {}", req);
         ModelMapper mapper = new ModelMapper();
         Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_])(?=\\S+$).{8,}$");
 
@@ -87,7 +90,7 @@ public class UserService implements iUserService {
     }
 
     @Override
-    public RegisterSellerResponse registerSeller(RegisterUserRequest req) {
+    public RegisterSellerResponse registerSeller(RegisterSellerRequest req) {
         System.out.println(req.getUserId());
         Buyer user = (Buyer) buyerRepo.findBuyerById(Long.parseLong(req.getUserId()));
 
