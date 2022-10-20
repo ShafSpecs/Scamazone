@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RegisterUserRequest {
+public class RegisterSellerRequest {
     private String userId;
     private String nothing;
 }
