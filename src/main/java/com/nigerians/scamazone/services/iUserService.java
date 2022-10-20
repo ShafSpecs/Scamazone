@@ -8,7 +8,7 @@ public interface iUserService {
     RegisterBuyerResponse registerBuyer(RegisterBuyerRequest req);
     LoginBuyerResponse loginBuyer(LoginBuyerRequest req);
     GetBuyerResponse getBuyer(String req);
-    RegisterSellerResponse registerSeller(RegisterUserRequest req);
+    RegisterSellerResponse registerSeller(RegisterSellerRequest req);
     GetSellerResponse getSeller(String req);
     User getUser(Long userId, String role);
     void saveUser(User user);
